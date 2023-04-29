@@ -1,5 +1,5 @@
 <template>
-  <footer class=" text-light py-3 fixed-bottom">
+  <footer class=" text-light py-3 ">
         <div class="container text-center">
           <p><span>Derechos reservados &copy; Mi sitio web 2023</span> </p>
         </div>
@@ -9,9 +9,9 @@
 <script>
 export default {
   name: '',
-  props: {
-   
-  }
+  data(){
+    
+ }
 }
 </script>
 
@@ -25,6 +25,9 @@ export default {
     span{
       font-weight: 700;
       font-size: 1.2rem;
+    }
+    footer{
+      margin-top: 10rem;
     }
     
 </style>

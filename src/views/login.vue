@@ -30,30 +30,52 @@
     </div>
     <div class="col">
       <!-- link -->
-      <a href="#!">Olvidaste la contraseña?</a>
+      <a href="">Olvidaste la contraseña?</a>
     </div>
   </div>
   <!-- button de submit -->
   <button type="button" class="btn btn-primary btn-block mb-4">Iniciar Sesion</button>
   <!-- button de registro -->
   <div class="text-center">
-    <p>No estas registrado? <a  href="#!">Registrarse</a></p>
+    <p>No estas registrado? <booton class="btn btn-primary" @click="mostrarValor">Registrarse</booton></p>
   </div>
 </form>
 </div><!--fin grid-->>
 
-<fot></fot>
+<Registro v-if="estado" ></Registro>
+
+
+<fot ></fot>
 
 </template>
 
 <script>
 import fot from "@/components/footer.vue"
+import Registro from "@/components/registrar.vue"
 export default {
   name: 'login',
+  data(){
+    return{
+      estado:false
+    }
+  },
   components: {
-   fot
+   fot,
+   Registro
+},
+methods:{
+  mostrarValor(){
+    if(this.estado){
+      this.estado=false
+    }else{
+      this.estado=true
+    }
   }
 }
+
+
+}
+
 </script>
 
 <style scope>
@@ -84,9 +106,8 @@ export default {
         background: linear-gradient(90deg, rgba(224,223,249,1) 19%, rgba(0,212,255,1) 48%);
       }
 
-      
-      
-
+     
+     
 
 
 </style>
