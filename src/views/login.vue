@@ -6,17 +6,20 @@
   <form class="mt-5 container w-25 col-md-6"> <!--SEGUNDA COLUMNA-->
     <div class="prueba">
        <h1 class="">Iniciar Sesion</h1>
+       <div class="alert alert-danger" v-if="msg !== ''">
+          <h3>{{ msg }}</h3>
+       </div>
     </div>
   <!-- input usuario -->
   <div class="form-outline mb-4 form-floating">
       
-      <input type="email" id="form2Example1" class="form-control border border-dark " />
+      <input type="email" id="form2Example1" class="form-control border border-dark " v-model="correo"/>
       <label class="form-label usuario" for="form2Example1">Usuario</label>
   </div>
   <!--input contarseña -->
   <div class="form-outline mb-4 form-floating" >
 
-    <input type="password" id="form2Example2" class="form-control border border-dark" />
+    <input type="password" id="form2Example2" class="form-control border border-dark" v-model="password"/>
     <label class="form-label font-weight:700; contraseña" for="form2Example2">Contraseña</label>
   </div>
   <!-- grid una fila y dos columnas -->
@@ -34,7 +37,7 @@
     </div>
   </div>
   <!-- button de submit -->
-  <button type="button" class="btn btn-primary btn-block mb-4">Iniciar Sesion</button>
+  <button @click="logear" type="button" class="btn btn-primary btn-block mb-4">Iniciar Sesion</button>
   <!-- button de registro -->
   <div class="text-center">
     <p>No estas registrado? <booton class="btn btn-primary" @click="mostrarValor">Registrarse</booton></p>
@@ -52,11 +55,18 @@
 <script>
 import fot from "@/components/footer.vue"
 import Registro from "@/components/registrar.vue"
+import { routeLocationKey } from 'vue-router'
 export default {
   name: 'login',
   data(){
     return{
-      estado:false
+      estado:false,
+      correo:'',
+      password:'',
+      msg:'',
+      mostrarmsg:false,
+      acceso:false,
+      logueados:[]
     }
   },
   components: {
@@ -70,11 +80,35 @@ methods:{
     }else{
       this.estado=true
     }
-  }
+  },
+  logear(){ 
+      this.msg=''
+      let dbLocal= JSON.parse(localStorage.getItem('usuarios'))
+      if(this.correo==='' || this.password==''){
+          this.msg='ERROR no se puede iniciar sesion sin el correo o la password'
+      }else if(dbLocal===null) {
+          this.error='no existe ningun usuario registrado en este momento'
+     }else{
+          dbLocal.forEach(usuario => {
+              if(this.correo===usuario.correo && this.password===usuario.password){
+                  this.acceso=true
+                  usuario.logeado=true
+                  this.logueados.push(usuario)
+                  localStorage.setItem('UsuariosLogueados',JSON.stringify(this.logueados))
+                  this.$router.push('/dashboard')
+
+              }
+          })
+          
+          this.msg='verificar contraseña y gmail. sino registrate :)'
+        }
+      }
+     
+}
 }
 
 
-}
+
 
 </script>
 

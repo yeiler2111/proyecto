@@ -81,55 +81,71 @@ export default{
     },
     methods:{
       agregarUsuario(){
-        this.error=''
-        this.submited=true
-        if(this.submited){
-          if(this.usuario.nombres === ''){
-              this.error='insercion no exitosa compruebe que el campo NOMBRES no este vacio'
-            return 
-          }else if(this.usuario.apellidos === ''){
-            this.error='insercion no exitosa compruebe que el campo Apellidos no este vacio'
-            return
-          }else if(this.usuario.correo === ''){
-            this.error='insercion no exitosa compruebe que el campo CORREO  no este vacio'
-            return
-          } else if(this.usuario.password === ''){
-            this.error='insercion no exitosa compruebe que el campo  PASSWORD no este vacio'
-            return
-          } else if(this.usuario.repeatpass === ''){
-            this.error='insercion no exitosa compruebe que el campo CONFIRMACION DE PASSWORDs no este vacio'
-            return
-          }else if(this.usuario.password!==this.usuario.repeatpass){
-            this.error='insercion no exitosa compruebe que el campo contraseñas ingresadas sean iguales no este vacio'
-            return
-          }else if(this.usuario.rol===''){
-            this.error='ingrese un ROL'
-            return
+      
+        if(this.verificarcorreo){
+            this.error=''
+          this.submited=true
+          if(this.submited){
+            if(this.usuario.nombres === ''){
+                this.error='insercion no exitosa compruebe que el campo NOMBRES no este vacio'
+              return 
+            }else if(this.usuario.apellidos === ''){
+              this.error='insercion no exitosa compruebe que el campo Apellidos no este vacio'
+              return
+            }else if(this.usuario.correo === ''){
+              this.error='insercion no exitosa compruebe que el campo CORREO  no este vacio'
+              return
+            } else if(this.usuario.password === ''){
+              this.error='insercion no exitosa compruebe que el campo  PASSWORD no este vacio'
+              return
+            } else if(this.usuario.repeatpass === ''){
+              this.error='insercion no exitosa compruebe que el campo CONFIRMACION DE PASSWORDs no este vacio'
+              return
+            }else if(this.usuario.password!==this.usuario.repeatpass){
+              this.error='insercion no exitosa compruebe que el campo contraseñas ingresadas sean iguales'
+              return
+            }else if(this.usuario.rol===''){
+              this.error='ingrese un ROL'
+              return
+            }else{
+              // Agregar el usuario al arreglo existente
+              
+            this.usuarios.push(this.usuario)
+              // Guardar el arreglo de usuarios en localStorage
+              localStorage.setItem('usuarios', JSON.stringify(this.usuarios));
+              // Redirigir al usuario a otra página     
+              this.usuario.nombres=''
+              this.usuario.apellidos=''
+              this.usuario.correo=''
+              this.usuario.password=''
+              this.usuario.repeatpass=''
+              this.usuario.ro=''
+              this.$router.push('/')
+            }
+
           }
-          else{
-            // Agregar el usuario al arreglo existente
-            
-           this.usuarios.push(this.usuario)
-            // Guardar el arreglo de usuarios en localStorage
-            localStorage.setItem('usuarios', JSON.stringify(this.usuarios));
-            // Redirigir al usuario a otra página     
-            this.usuario.nombres=''
-            this.usuario.apellidos=''
-            this.usuario.correo=''
-            this.usuario.password=''
-            this.usuario.repeatpass=''
-            this.usuario.ro=''
-            this.$router.push('/')
+        }else{
+            this.error='el usuario ya se encuentar registrado por lo tanto. usa otro correo'
           }
 
-        }
-          
+    }, verificarCorreo(){
+      console.log('entrando a verificar correo')
+        let verificar=JSON.parse(localStorage.getItem(usuarios))
+        verificar.forEach(item => {
+            if(item.correo===this.correo){
+                return true
+            }
+        });
+    },
+    created(){
+      let data= localStorage.getItem("usuarios");
+      if(data!=null){
+        this.usuarios=JSON.parse(data)
       }
-
     }
 
 
-}
+    }}
 
 </script>
 
