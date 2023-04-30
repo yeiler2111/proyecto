@@ -18,6 +18,12 @@
                 <input type="email" id="registerEmail" class="form-control" v-model="usuario.correo" />
                 <label class="form-label" for="registerEmail">Email</label>
               </div>
+
+              <!---->
+              <div class="form-outline form-floating mb-4">
+                <input type="text" id="registerCell" class="form-control" v-model="usuario.telefono" />
+                <label class="form-label" for="registerCell">numero telefono</label>
+              </div>
         
               <!-- ingresando el passwordt -->
               <div class="form-outline form-floating mb-4">
@@ -73,16 +79,18 @@ export default{
               correo:'',
               password:'',
               repeatpass:'',
-              rol:''
+              rol:'',
+              telefono:''
+              
            },
            usuarios:[],
-           error:''
+           error:'',
+           registrado:false
         }
     },
     methods:{
       agregarUsuario(){
-      
-        if(this.verificarcorreo){
+            this.registrado=false
             this.error=''
           this.submited=true
           if(this.submited){
@@ -101,6 +109,9 @@ export default{
             } else if(this.usuario.repeatpass === ''){
               this.error='insercion no exitosa compruebe que el campo CONFIRMACION DE PASSWORDs no este vacio'
               return
+            }else if(this.usuario.telefono === ''){
+              this.error='insercion no exitosa compruebe que el campo numero telefono no este vacio'
+              return
             }else if(this.usuario.password!==this.usuario.repeatpass){
               this.error='insercion no exitosa compruebe que el campo contraseñas ingresadas sean iguales'
               return
@@ -108,44 +119,49 @@ export default{
               this.error='ingrese un ROL'
               return
             }else{
-              // Agregar el usuario al arreglo existente
-              
-            this.usuarios.push(this.usuario)
-              // Guardar el arreglo de usuarios en localStorage
-              localStorage.setItem('usuarios', JSON.stringify(this.usuarios));
+              // Obtener el arreglo existente del LocalStorage
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []
+
+                // Verificar si el correo ya está registrado
+                const correoExistente = usuarios.find(u => u.correo === this.usuario.correo)
+                if (correoExistente) {
+                  this.error = 'El correo ya está registrado. Por favor, cambia el correo.'
+                  return;
+                }
+
+                
+
+                // Agregar el nuevo usuario al arreglo
+                usuarios.push(this.usuario)
+
+                // Guardar el arreglo actualizado en el LocalStorage
+                localStorage.setItem('usuarios', JSON.stringify(usuarios))
+                this.$router.push('/')
+               
+
+               
+              }
+           
               // Redirigir al usuario a otra página     
               this.usuario.nombres=''
               this.usuario.apellidos=''
               this.usuario.correo=''
               this.usuario.password=''
               this.usuario.repeatpass=''
-              this.usuario.ro=''
-              this.$router.push('/')
-            }
-
-          }
-        }else{
-            this.error='el usuario ya se encuentar registrado por lo tanto. usa otro correo'
-          }
-
-    }, verificarCorreo(){
-      console.log('entrando a verificar correo')
-        let verificar=JSON.parse(localStorage.getItem(usuarios))
-        verificar.forEach(item => {
-            if(item.correo===this.correo){
-                return true
-            }
-        });
-    },
-    created(){
-      let data= localStorage.getItem("usuarios");
+              this.usuario.rol=''
+              this.usuario.telefono=''
+            } 
+      }}, 
+    //created(){
+      /*let data= localStorage.getItem("usuarios");
       if(data!=null){
         this.usuarios=JSON.parse(data)
       }
     }
+*/
 
-
-    }}
+  //  
+}
 
 </script>
 

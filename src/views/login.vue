@@ -84,6 +84,8 @@ methods:{
   logear(){ 
       this.msg=''
       let dbLocal= JSON.parse(localStorage.getItem('usuarios'))
+      
+
       if(this.correo==='' || this.password==''){
           this.msg='ERROR no se puede iniciar sesion sin el correo o la password'
       }else if(dbLocal===null) {
@@ -102,7 +104,7 @@ methods:{
           
           this.msg='verificar contraseña y gmail. sino registrate :)'
         }
-      }
+}
      
 }
 }

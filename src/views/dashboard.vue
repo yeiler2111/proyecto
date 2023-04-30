@@ -1,11 +1,94 @@
 <template >
 
-  <div :class="FondoDashboard" v-if="rolUser==='Usuario'" class="Usuarios"><h1>bienvenido usuario</h1> <button @click="desloguear">logaut</button></div>
-  <div :class="FondoDashboard" v-if="rolUser==='Administrador'" class="Administrador"><h1>bienvenido administardor</h1><button @click="desloguear">logaut</button></div>
-  <div :class="FondoDashboard" v-if="rolUser==='SuperAdministrador'" class="SuperAdministrador"><h1>bienvenido SuperAdministrador</h1><button @click="desloguear">logaut</button></div>
+  <div :class="FondoDashboard" v-if="rolUser==='Usuario'" class="Usuarios"><!--usuario vista-->
+        <h1>bienvenido usuario</h1>
+       <button @click="desloguear">logaut</button>
+  </div>
+
+  <div :class="FondoDashboard" v-if="rolUser==='Administrador'" class="Administrador"><!--administrador vista-->
+    <div class="container" >
+      <button @click="desloguear">logaut</button>
+      <div class="panel">
+          <nav>
+            <input type="text" placeholder="buscar">
+          </nav>
+
+      </div>
+      <div class="lista">
+      
+          <table class="table">
+            <thead>
+              <tr  >
+                <th scope="row">id</th>
+                <td>nombres</td>
+                <td>apellidos</td>
+                <td>correo</td>
+                <td>telefono</td>
+                <td>rol</td>
+             </tr>
+            </thead>
+            <tbody >
+              <tr v-for="usuario in usuariosFiltrados" :key="usuario.id"  >
+                <th scope="row">{{ contador++ }}</th>
+                <td>{{ usuario.nombres }}</td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>{{ usuario.rol }}</td>
+             </tr>
+             
+              
+            </tbody>
+            </table>
+      </div>
+
+    </div>
+   
+  </div>
+
+  <div :class="FondoDashboard" v-if="rolUser==='SuperAdministrador'" class="SuperAdministrador"><!--superadministrador vista-->
+    <div class="container" >
+      <button @click="desloguear">logaut</button>
+      <div class="panel">
+          <nav>
+            <input type="text" placeholder="buscar">
+          </nav>
+
+      </div>
+      <div class="lista">
+      
+          <table class="table">
+            <thead>
+              <tr  >
+                <th scope="row">id</th>
+                <td>nombres</td>
+                <td>apellidos</td>
+                <td>correo</td>
+                <td>telefono</td>
+                <td>rol</td>
+             </tr>
+            </thead>
+            <tbody >
+              <tr v-for="usuario in usuariosFiltradosSuper" :key="usuario.id"  >
+                <th scope="row">{{ contador++ }}</th>
+                <td>{{ usuario.nombres }}</td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>{{ usuario.rol }}</td>
+             </tr>
+             
+              
+            </tbody>
+            </table>
+      </div>
+
+    </div>
+    <button @click="desloguear">logaut</button>
+  </div>
 
    
-   >
+   
  
 </template>
 
@@ -20,8 +103,11 @@ export default{
       verUsuario:false,
       verAdministrador:false,
       verSuperAdministrador:false,
-      rolUser:''
+      rolUser:'',
+      usuarios:[],
+      contador:1
     }  
+    
       
   },computed:{
   
@@ -29,7 +115,13 @@ export default{
       if(this.$route.path === '/dashboard'){
         return 'fondo-blanco'
       }
-    }
+    },
+    usuariosFiltrados() {
+    return this.usuarios.filter(usuario => usuario.rol === 'Usuario');
+  },
+  usuariosFiltradosSuper() {
+    return this.usuarios.filter(usuario => usuario.rol !== 'SuperAdministrador');
+  }
       
 
   }
@@ -50,7 +142,13 @@ export default{
         usuario.forEach(item => {
             this.rolUser=item.rol
         });
-    }
+
+        this.usuarios= JSON.parse(localStorage.getItem('usuarios'))
+
+
+
+    },
+  
   },
   mounted(){
     this.informacionUsuario()
