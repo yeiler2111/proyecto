@@ -18,13 +18,14 @@
       
           <table class="table">
             <thead>
-              <tr  >
+              <tr >
                 <th scope="row">id</th>
                 <td>nombres</td>
                 <td>apellidos</td>
                 <td>correo</td>
                 <td>telefono</td>
                 <td>rol</td>
+                <td>acciones</td>
              </tr>
             </thead>
             <tbody >
@@ -35,6 +36,11 @@
                 <td>{{ usuario.correo }}</td>
                 <td>{{ usuario.telefono }}</td>
                 <td>{{ usuario.rol }}</td>
+                <td>
+                  <button class="btn btn-danger">delete</button>
+                  <button class="btn btn-primary">update</button>
+                  <button class="btn btn-warning">create</button>
+                </td>
              </tr>
              
               
@@ -66,6 +72,7 @@
                 <td>correo</td>
                 <td>telefono</td>
                 <td>rol</td>
+                <td>acciones</td>
              </tr>
             </thead>
             <tbody >
@@ -76,7 +83,14 @@
                 <td>{{ usuario.correo }}</td>
                 <td>{{ usuario.telefono }}</td>
                 <td>{{ usuario.rol }}</td>
+                <td>
+                  <button @click="borrar(usuario.id)" class="btn btn-danger">delete</button>
+                  <button class="btn btn-primary">update</button>
+                  <button  class="btn btn-warning">create</button>
+                </td>
+                
              </tr>
+         
              
               
             </tbody>
@@ -84,7 +98,7 @@
       </div>
 
     </div>
-    <button @click="desloguear">logaut</button>
+    
   </div>
 
    
@@ -147,7 +161,13 @@ export default{
 
 
 
-    },
+    },borrar(id) {
+      console.log(id)
+      const usuarioIndex = this.usuarios.findIndex(usuario => usuario.id === id);
+      if (usuarioIndex !== -1) {
+      this.usuarios.splice(usuarioIndex, 1);
+  }
+}
   
   },
   mounted(){
