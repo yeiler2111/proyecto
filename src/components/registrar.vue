@@ -74,6 +74,7 @@ export default{
         return{
            submited:false,
            usuario:{
+              id:0,
               nombres:'',
               apellidos:'',
               correo:'',
@@ -90,6 +91,7 @@ export default{
     },
     methods:{
       agregarUsuario(){
+      
             this.registrado=false
             this.error=''
           this.submited=true
@@ -120,16 +122,25 @@ export default{
               return
             }else{
               // Obtener el arreglo existente del LocalStorage
-                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []
-
+               //id de cada objeto autoincremental
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []//obteniendo el arreglo de usuarios
+                
                 // Verificar si el correo ya está registrado
                 const correoExistente = usuarios.find(u => u.correo === this.usuario.correo)
                 if (correoExistente) {
                   this.error = 'El correo ya está registrado. Por favor, cambia el correo.'
                   return;
                 }
-
+                //validando que solo haya un super administrador
                 
+              
+                //aumentando el id en 1
+                let ultimoId = 0
+                if (usuarios.length > 0) {
+                ultimoId = usuarios[usuarios.length - 1].id
+                }
+                
+               this.usuario.id=ultimoId+1
 
                 // Agregar el nuevo usuario al arreglo
                 usuarios.push(this.usuario)

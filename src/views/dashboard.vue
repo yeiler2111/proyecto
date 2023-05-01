@@ -53,19 +53,21 @@
   </div>
 
   <div :class="FondoDashboard" v-if="rolUser==='SuperAdministrador'" class="SuperAdministrador"><!--superadministrador vista-->
-    <div class="container" >
-      <button @click="desloguear">logaut</button>
+    <div class="container container-fluid" >
+    
       <div class="panel">
-          <nav>
+          <nav >
+            <button @click="cambiarC" class="btn btn-warning">create</button>
             <input type="text" placeholder="buscar">
+            <button @click="desloguear">logaut</button>
           </nav>
 
       </div>
       <div class="lista">
       
           <table class="table">
-            <thead>
-              <tr  >
+            <thead><!--definicion de columnas-->
+              <tr>
                 <th scope="row">id</th>
                 <td>nombres</td>
                 <td>apellidos</td>
@@ -76,8 +78,8 @@
              </tr>
             </thead>
             <tbody >
-              <tr v-for="usuario in usuariosFiltradosSuper" :key="usuario.id"  >
-                <th scope="row">{{ contador++ }}</th>
+              <tr v-for="usuario in usuariosFiltradosSuper" :key="usuario.id"> <!--definicion de filas-->
+                <th scope="row">{{ usuario.id }}</th>
                 <td>{{ usuario.nombres }}</td>
                 <td>{{ usuario.apellidos }}</td>
                 <td>{{ usuario.correo }}</td>
@@ -85,8 +87,8 @@
                 <td>{{ usuario.rol }}</td>
                 <td>
                   <button @click="borrar(usuario.id)" class="btn btn-danger">delete</button>
-                  <button class="btn btn-primary">update</button>
-                  <button  class="btn btn-warning">create</button>
+                  <button  class="btn btn-primary">update</button>
+                  
                 </td>
                 
              </tr>
@@ -96,9 +98,11 @@
             </tbody>
             </table>
       </div>
+         <registro v-if="mostrarC"></registro>
+       
 
     </div>
-    
+    <foter class="foter"></foter>
   </div>
 
    
@@ -107,11 +111,11 @@
 </template>
 
 <script>
+ import registro from "@/components/crear.vue"
+ import foter from "@/components/footer.vue"
 export default{
+ 
   name:'dashboard',
-  mounted:{
-
-  },
   data(){
     return{
       verUsuario:false,
@@ -119,27 +123,27 @@ export default{
       verSuperAdministrador:false,
       rolUser:'',
       usuarios:[],
-      contador:1
+      mostrarC:false
+      
     }  
     
       
   },computed:{
   
-    FondoDashboard(){
+    FondoDashboard(){//fondo de las visatas
       if(this.$route.path === '/dashboard'){
         return 'fondo-blanco'
       }
     },
-    usuariosFiltrados() {
+    usuariosFiltrados() {//funcion que manda el arreglod e los usuarios
     return this.usuarios.filter(usuario => usuario.rol === 'Usuario');
   },
-  usuariosFiltradosSuper() {
+  usuariosFiltradosSuper() {//funcion que manda el arreglo de administradores y usuarios
     return this.usuarios.filter(usuario => usuario.rol !== 'SuperAdministrador');
   }
       
 
-  }
-  ,
+  },
   methods:{
     desloguear(){
       let usuario = JSON.parse(localStorage.getItem('UsuariosLogueados'))
@@ -154,24 +158,35 @@ export default{
   informacionUsuario(){
         let usuario = JSON.parse(localStorage.getItem('UsuariosLogueados'))  
         usuario.forEach(item => {
-            this.rolUser=item.rol
+            this.rolUser=item.rol//asignandole el rol del usuario logueado para definir la vista requerida
         });
 
-        this.usuarios= JSON.parse(localStorage.getItem('usuarios'))
-
-
-
-    },borrar(id) {
-      console.log(id)
-      const usuarioIndex = this.usuarios.findIndex(usuario => usuario.id === id);
-      if (usuarioIndex !== -1) {
-      this.usuarios.splice(usuarioIndex, 1);
-  }
-}
+        this.usuarios= JSON.parse(localStorage.getItem('usuarios')) //obteniendo los usuarios registrados en el localstoge
+    },borrar(id) {//metodo eliminar registro por id
+        if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+          const usuarioIndex = this.usuarios.findIndex(usuario => usuario.id === id);
+          if (usuarioIndex !== -1) {
+            this.usuarios.splice(usuarioIndex, 1);
+            localStorage.setItem('usuarios', JSON.stringify(this.usuarios))
+          }
+        }
+      },
+      cambiarC(){
+        if(this.mostrarC){
+          this.mostrarC=false 
+        }else{
+          this.mostrarC=true
+        }
+      },
+     
   
   },
   mounted(){
     this.informacionUsuario()
+  },
+  components:{
+    registro,
+    foter
   }
   }
 </script>
@@ -181,7 +196,17 @@ export default{
     .fondo-blanco{
       background-color: white;
     }
-  
+    nav{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .foter{
+        background-color: black;
+        color: white;
+      
+    }
+
 
 </style>
   
