@@ -6,50 +6,56 @@
   </div>
 
   <div :class="FondoDashboard" v-if="rolUser==='Administrador'" class="Administrador"><!--administrador vista-->
-    <div class="container" >
-      <button @click="desloguear">logaut</button>
-      <div class="panel">
-          <nav>
-            <input type="text" placeholder="buscar">
-          </nav>
-
-      </div>
-      <div class="lista">
-      
-          <table class="table">
-            <thead>
-              <tr >
-                <th scope="row">id</th>
-                <td>nombres</td>
-                <td>apellidos</td>
-                <td>correo</td>
-                <td>telefono</td>
-                <td>rol</td>
-                <td>acciones</td>
-             </tr>
-            </thead>
-            <tbody >
-              <tr v-for="usuario in usuariosFiltrados" :key="usuario.id"  >
-                <th scope="row">{{ contador++ }}</th>
-                <td>{{ usuario.nombres }}</td>
-                <td>{{ usuario.apellidos }}</td>
-                <td>{{ usuario.correo }}</td>
-                <td>{{ usuario.telefono }}</td>
-                <td>{{ usuario.rol }}</td>
-                <td>
-                  <button class="btn btn-danger">delete</button>
-                  <button class="btn btn-primary">update</button>
-                  <button class="btn btn-warning">create</button>
-                </td>
-             </tr>
-             
-              
-            </tbody>
-            </table>
-      </div>
+    <div class="container container-fluid" >
+    
+    <div class="panel">
+        <nav >
+          <button @click="cambiarC" class="btn btn-warning">create</button>
+          <input type="text" placeholder="buscar">
+          <button @click="desloguear">logaut</button>
+        </nav>
 
     </div>
-   
+    <div class="lista">
+    
+        <table class="table">
+          <thead><!--definicion de columnas-->
+            <tr>
+              <th scope="row">id</th>
+              <td>nombres</td>
+              <td>apellidos</td>
+              <td>correo</td>
+              <td>telefono</td>
+              <td>rol</td>
+              <td>acciones</td>
+           </tr>
+          </thead>
+          <tbody >
+            <tr v-for="usuario in usuariosFiltrados" :key="usuario.id"> <!--definicion de filas-->
+              <th scope="row">{{ usuario.id }}</th>
+              <td>{{ usuario.nombres }}</td>
+              <td>{{ usuario.apellidos }}</td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.telefono }}</td>
+              <td>{{ usuario.rol }}</td>
+              <td>
+                <button @click="borrar(usuario.id)" class="btn btn-danger">delete</button>
+                <button @click="modificar(usuario.id)" class="btn btn-primary">update</button>
+                
+              </td>
+              
+           </tr>
+       
+           
+            
+          </tbody>
+          </table>
+    </div>
+       <registro v-if="mostrarC"></registro>
+     
+
+  </div>
+  <foter class="foter"></foter>
   </div>
 
   <div :class="FondoDashboard" v-if="rolUser==='SuperAdministrador'" class="SuperAdministrador"><!--superadministrador vista-->
