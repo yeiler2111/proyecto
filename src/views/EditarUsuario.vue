@@ -4,7 +4,7 @@
       <form @submit.prevent="editarUsuario">
         <label>
           Nombres:
-          <input type="text" v-model="nombres" value="{{ nombres }}">
+          <input type="text" v-model="nombres" >
         </label>
         <label>
           Apellidos:
