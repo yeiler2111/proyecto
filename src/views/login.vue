@@ -82,7 +82,8 @@ methods:{
     }
   },
   logear(){ 
-      this.msg=''
+
+      this.msg=''//mensaje de error por si algo sale mal
       let dbLocal= JSON.parse(localStorage.getItem('usuarios'))
       
 
@@ -104,7 +105,7 @@ methods:{
           
           this.msg='verificar contraseña y gmail. sino registrate :)'
         }
-}
+      }
      
 }
 }
@@ -138,8 +139,8 @@ methods:{
       }
 
       body{
-        background: rgb(224,223,249);
-        background: linear-gradient(90deg, rgba(224,223,249,1) 19%, rgba(0,212,255,1) 48%);
+        background: rgb(242,242,249);
+background: linear-gradient(90deg, rgba(242,242,249,1) 11%, rgba(8,208,228,1) 60%, rgba(111,205,126,1) 100%);
       }
 
      

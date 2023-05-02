@@ -27,7 +27,6 @@ export default {
       font-size: 1.2rem;
     }
     footer{
-      margin-top: 10rem;
-    }
+      margin-top: 10rem;    }
     
 </style>

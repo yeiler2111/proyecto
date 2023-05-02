@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/login.vue'
 import dashboard from '@/views/Dashboard.vue'
+import EditarUsuario from '@/views/EditarUsuario.vue'
 
 const routes = [
   {
@@ -13,6 +14,10 @@ const routes = [
     name: 'dashboard',
     component: dashboard
 
+  },{
+    path: '/usuarios/:id/editar',
+    name: 'editar-usuario',
+    component: EditarUsuario
   }
   
 

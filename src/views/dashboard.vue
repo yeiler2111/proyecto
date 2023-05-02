@@ -87,7 +87,7 @@
                 <td>{{ usuario.rol }}</td>
                 <td>
                   <button @click="borrar(usuario.id)" class="btn btn-danger">delete</button>
-                  <button  class="btn btn-primary">update</button>
+                  <button @click="modificar(usuario.id)" class="btn btn-primary">update</button>
                   
                 </td>
                 
@@ -113,6 +113,8 @@
 <script>
  import registro from "@/components/crear.vue"
  import foter from "@/components/footer.vue"
+
+import EditarUsuarioVue from '@/views/EditarUsuario.vue'
 export default{
  
   name:'dashboard',
@@ -177,7 +179,9 @@ export default{
         }else{
           this.mostrarC=true
         }
-      },
+      },modificar(index){
+         this.$router.push({ name:'editar-usuario', params:{id:index}})
+      }
      
   
   },
@@ -186,7 +190,8 @@ export default{
   },
   components:{
     registro,
-    foter
+    foter,
+    
   }
   }
 </script>

@@ -93,9 +93,10 @@ export default{
       agregarUsuario(){
       
             this.registrado=false
-            this.error=''
+            this.error=''//mensaje de error por si algo sale mal
           this.submited=true
           if(this.submited){
+            //validaciones
             if(this.usuario.nombres === ''){
                 this.error='insercion no exitosa compruebe que el campo NOMBRES no este vacio'
               return 
@@ -120,7 +121,8 @@ export default{
             }else if(this.usuario.rol===''){
               this.error='ingrese un ROL'
               return
-            }else{
+            }  //validaciones
+            else{
               // Obtener el arreglo existente del LocalStorage
                //id de cada objeto autoincremental
                 const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []//obteniendo el arreglo de usuarios
@@ -132,9 +134,16 @@ export default{
                   return;
                 }
                 //validando que solo haya un super administrador
+                if(this.usuario.rol==='SuperAdministrador'){ 
+                 
+                  const haySuperAdmin = usuarios.some(usuario => usuario.rol === 'SuperAdministrador');
+                  if(haySuperAdmin){
+                    this.error='ya se encuentra registardo un super administrador'
+                    return
+                  }
+                }
                 
-              
-                //aumentando el id en 1
+                //Agregando Id
                 let ultimoId = 0
                 if (usuarios.length > 0) {
                 ultimoId = usuarios[usuarios.length - 1].id

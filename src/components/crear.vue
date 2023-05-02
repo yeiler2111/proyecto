@@ -132,6 +132,15 @@ export default{
                  this.error = 'El correo ya está registrado. Por favor, cambia el correo.'
                  return;
                }
+               //validando que solo haya un super administrador
+               if(this.usuario.rol==='SuperAdministrador'){ 
+               
+                  const haySuperAdmin = usuarios.some(usuario => usuario.rol === 'SuperAdministrador');
+                  if(haySuperAdmin){
+                    this.error='ya se encuentra registardo un super administrador'
+                    return
+                  }
+                }
                 // Buscar el último identificador utilizado en el arreglo de usuarios para AUTOINCREMENTARLO
                 let ultimoId = 0
                 if (usuarios.length > 0) {
