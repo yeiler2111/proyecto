@@ -1,21 +1,11 @@
 <template>
-  <div  v-if="rolUser === 'Usuario'" class="Usuarios">
-    <!--usuario vista-->
-    <h1>bienvenido usuario</h1>
-    <button @click="desloguear">logaut</button>
-  </div>
-
-  <div
-    :class="FondoDashboard"
-    v-if="rolUser === 'Administrador'"
-    class="Administrador"
-  >
-    <!--administrador vista-->
+  <div :class="FondoDashboard" class="SuperAdministrador">
+    <!--superadministrador vista-->
     <div class="container container-fluid">
       <div class="panel">
         <nav>
           <button @click="cambiarC" class="btn btn-warning">create</button>
-          <input type="text" placeholder="buscar" />
+
           <button @click="desloguear">logaut</button>
         </nav>
       </div>
@@ -54,72 +44,18 @@
           </tbody>
         </table>
       </div>
-      <registro v-if="mostrarC"></registro>
     </div>
-    <foter class="foter"></foter>
-  </div>
-
-  <div
-    :class="FondoDashboard"
-    v-if="rolUser === 'SuperAdministrador'"
-    class="SuperAdministrador"
-  >
-    <!--superadministrador vista-->
-    <div class="container container-fluid">
-      <div class="panel">
-        <nav>
-          <button @click="cambiarC" class="btn btn-warning">create</button>
-          <input type="text" placeholder="buscar" />
-          <button @click="desloguear">logaut</button>
-        </nav>
-      </div>
-      <div class="lista">
-        <table class="table">
-          <thead>
-            <!--definicion de columnas-->
-            <tr>
-              <th scope="row">id</th>
-              <td>nombres</td>
-              <td>apellidos</td>
-              <td>correo</td>
-              <td>telefono</td>
-              <td>rol</td>
-              <td>acciones</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="usuario in usuariosFiltradosSuper" :key="usuario.id">
-              <!--definicion de filas-->
-              <th scope="row">{{ usuario.id }}</th>
-              <td>{{ usuario.nombres }}</td>
-              <td>{{ usuario.apellidos }}</td>
-              <td>{{ usuario.correo }}</td>
-              <td>{{ usuario.telefono }}</td>
-              <td>{{ usuario.rol }}</td>
-              <td>
-                <button @click="borrar(usuario.id)" class="btn btn-danger">
-                  delete
-                </button>
-                <button @click="modificar(usuario.id)" class="btn btn-primary">
-                  update
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <registro v-if="mostrarC"></registro>
-    </div>
-    <foter class="foter"></foter>
+    <Registro v-if="mostrarC" :permisos="['Usuario']"></Registro>
   </div>
 </template>
 
 <script>
-import registro from "@/components/registrar.vue";
-import foter from "@/components/footer.vue";
-
+import Registro from "../../components/registrar.vue";
 export default {
-  name: "dashboard",
+  components: {
+    Registro,
+  },
+  name: "admin",
   data() {
     return {
       verUsuario: false,
@@ -128,6 +64,7 @@ export default {
       rolUser: "",
       usuarios: [],
       mostrarC: false,
+      rolActual: "Administrador",
     };
   },
   computed: {
@@ -140,12 +77,6 @@ export default {
     usuariosFiltrados() {
       //funcion que manda el arreglod e los usuarios
       return this.usuarios.filter((usuario) => usuario.rol === "Usuario");
-    },
-    usuariosFiltradosSuper() {
-      //funcion que manda el arreglo de administradores y usuarios
-      return this.usuarios.filter(
-        (usuario) => usuario.rol !== "SuperAdministrador"
-      );
     },
   },
   methods: {
@@ -227,15 +158,14 @@ export default {
       }
     },
     modificar(index) {
-      this.$router.push({ name: "editar-usuario", params: { id: index } });
+      this.$router.push({
+        name: "editar-usuario",
+        params: { id: index, rol: this.rolActual },
+      });
     },
   },
   mounted() {
     this.informacionUsuario();
-  },
-  components: {
-    registro,
-    foter,
   },
 };
 </script>

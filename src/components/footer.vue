@@ -1,17 +1,13 @@
 <template>
-  <footer class=" text-light py-3 ">
-        <div class="container text-center">
+  <div class="container text-center">
           <p><span>Derechos reservados &copy; Mi sitio web 2023</span> </p>
-        </div>
-      </footer>
+  </div>
 </template>
 
 <script>
 export default {
   name: '',
-  data(){
-    
- }
+  
 }
 </script>
 
