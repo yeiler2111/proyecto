@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkproyecto"]=self["webpackChunkproyecto"]||[]).push([[87],{3087:function(r,e,n){n.r(e),n.d(e,{default:function(){return o}});var t=n(3396);function u(r,e){return(0,t.wg)(),(0,t.iD)("div",null," Otra vista de super admin ")}var a=n(89);const c={},i=(0,a.Z)(c,[["render",u]]);var o=i}}]);
+//# sourceMappingURL=87.4dcef984.js.map
